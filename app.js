@@ -2,10 +2,13 @@ const questions = document.querySelectorAll('.question-tr').length
 const evaluateResultsBtn = document.getElementById('evaluate-results-btn')
 const ctx = document.getElementById('myChart').getContext('2d')
 
-
+const alert = document.getElementById('blank-space-alert')
 
 const porcentajes = [0, 0, 0];
 const etiquetas = ['Sí', 'No', 'Na'];
+
+
+
 
 const myChart = new Chart(ctx, {
 
@@ -27,6 +30,19 @@ const myChart = new Chart(ctx, {
         }
     }
 })
+
+function showBlankSpacesAlert(){
+
+
+    alert.style.display = 'block'
+
+    setTimeout(() => {
+            alert.style.display = 'none'
+    }, 3000);
+
+
+}
+
 
 function updateResults(yes, no, na) {
     let finalResult = ''
@@ -72,7 +88,7 @@ function getPorcentage(answers,term){
 
 
 
-evaluateResultsBtn.addEventListener('click', () => {
+evaluateResultsBtn.addEventListener('click', (e) => {
 
     let blankSpace = false
 
@@ -115,22 +131,20 @@ evaluateResultsBtn.addEventListener('click', () => {
     }
 
     
-    if(!blankSpace){    
-
-
-        let yes = getPorcentage(answers,'si')
-        let no = getPorcentage(answers,'no')
-        let na = getPorcentage(answers,'na')
-
-
-
-        update(yes,no,na)
-
-    }else{
+    if (!blankSpace) {
+        let yes = getPorcentage(answers, 'si')
+        let no = getPorcentage(answers, 'no')
+        let na = getPorcentage(answers, 'na')
+        update(yes, no, na)
+    
+        const modal = new bootstrap.Modal(document.getElementById("exampleModal"));
+        modal.show();
 
         
-
+    } else {
+        showBlankSpacesAlert();
     }
+    
 
 
 });

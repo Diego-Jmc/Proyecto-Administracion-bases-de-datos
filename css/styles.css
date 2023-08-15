@@ -9,3 +9,7 @@ body{
 .content-description{
     margin-top: 2rem;
 }
+
+#blank-space-alert{
+    display: none;
+}

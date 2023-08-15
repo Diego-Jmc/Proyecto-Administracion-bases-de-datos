@@ -216,7 +216,11 @@ if ($questions_result && mysqli_num_rows($questions_result) > 0) {
 
         </table>
 
-        <button data-toggle="modal" data-target="#exampleModal" class="btn btn-success" id="evaluate-results-btn"> Evaluate </button>
+        <div class="alert alert-warning" role="alert" id="blank-space-alert" class="blank-space-alert">
+        Debe marcar todas las respuestas para visualizar los resultados
+        </div>
+
+        <button  data-target="#exampleModal" class="btn btn-success" id="evaluate-results-btn"> Evaluate </button>
 
 
     </div>
@@ -225,6 +229,7 @@ if ($questions_result && mysqli_num_rows($questions_result) > 0) {
 
 
     </div>
+
 
 
 
