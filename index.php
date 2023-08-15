@@ -115,17 +115,17 @@ if ($questions_result && mysqli_num_rows($questions_result) > 0) {
     <tr>
         <td colspan="5">P01 : Definir un plan estratégico de TI</td>
         <?php
-        $question_number = 1;
+     
     foreach ($questions as $question) {
         if ($question->process == "Definir un plan estratégico de TI") {
             echo "<tr>";
-            echo "<td class='question-tr'>" .  $question_number. "</td>";
+            echo "<td class='question-tr'>" .  $question->number. "</td>";
             echo "<td>" . $question->text . "</td>";
             echo "<td><input type='radio' name='answer_" . $question->number . "' value='si'></td>";
             echo "<td><input type='radio' name='answer_" . $question->number . "' value='no'></td>";
             echo "<td><input type='radio' name='answer_" . $question->number . "' value='na'></td>";
             echo "</tr>";
-            $question_number ++;
+            
         }
     }
     ?>
@@ -135,7 +135,7 @@ if ($questions_result && mysqli_num_rows($questions_result) > 0) {
     <tr>
         <td colspan="5">P02 : Definir la arquitectura de la información</td>
         <?php
-             $question_number = 1;
+            
     foreach ($questions as $question) {
         if ($question->process == "Definir la arquitectura de la información") {
             echo "<tr>";
@@ -145,7 +145,7 @@ if ($questions_result && mysqli_num_rows($questions_result) > 0) {
             echo "<td><input type='radio' name='answer_" . $question->number . "' value='no'></td>";
             echo "<td><input type='radio' name='answer_" . $question->number . "' value='na'></td>";
             echo "</tr>";
-            $question_number ++;
+           
         }
     }
     ?>
@@ -154,7 +154,7 @@ if ($questions_result && mysqli_num_rows($questions_result) > 0) {
     <tr>
         <td colspan="5">P03 : Gestionar la adquisición y la implementación</td>
         <?php
-             $question_number = 1;
+            
     foreach ($questions as $question) {
         if ($question->process == "Gestionar la adquisición y la implementación") {
             echo "<tr>";
@@ -164,7 +164,6 @@ if ($questions_result && mysqli_num_rows($questions_result) > 0) {
             echo "<td><input type='radio' name='answer_" . $question->number . "' value='no'></td>";
             echo "<td><input type='radio' name='answer_" . $question->number . "' value='na'></td>";
             echo "</tr>";
-            $question_number ++;
         }
     }
     ?>
@@ -173,7 +172,7 @@ if ($questions_result && mysqli_num_rows($questions_result) > 0) {
     <tr>
         <td colspan="5">P04 : Gestionar cambios</td>
         <?php
-             $question_number = 1;
+             
     foreach ($questions as $question) {
         if ($question->process == "Gestionar cambios") {
             echo "<tr>";
@@ -183,7 +182,7 @@ if ($questions_result && mysqli_num_rows($questions_result) > 0) {
             echo "<td><input type='radio' name='answer_" . $question->number . "' value='no'></td>";
             echo "<td><input type='radio' name='answer_" . $question->number . "' value='na'></td>";
             echo "</tr>";
-            $question_number ++;
+            
         }
     }
     ?>
@@ -192,7 +191,7 @@ if ($questions_result && mysqli_num_rows($questions_result) > 0) {
     <tr>
         <td colspan="5">P05 : Gestionar operaciones</td>
         <?php
-             $question_number = 1;
+    
     foreach ($questions as $question) {
         if ($question->process == "Gestionar operaciones") {
             echo "<tr>";
@@ -202,7 +201,7 @@ if ($questions_result && mysqli_num_rows($questions_result) > 0) {
             echo "<td><input type='radio' name='answer_" . $question->number . "' value='no'></td>";
             echo "<td><input type='radio' name='answer_" . $question->number . "' value='na'></td>";
             echo "</tr>";
-            $question_number ++;
+   
         }
     }
     ?>
