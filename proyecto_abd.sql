@@ -1,89 +1,83 @@
--- phpMyAdmin SQL Dump
--- version 5.2.0
--- https://www.phpmyadmin.net/
---
--- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 10-08-2023 a las 02:06:31
--- Versión del servidor: 8.0.31
--- Versión de PHP: 8.0.26
+-- Crear la base de datos
+CREATE DATABASE IF NOT EXISTS proyecto_abd;
 
--- Drop and recreate the database
-DROP DATABASE IF EXISTS `proyecto_abd`;
-CREATE DATABASE `proyecto_abd`;
-USE `proyecto_abd`;
+-- Seleccionar la base de datos
+USE proyecto_abd;
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
+-- Eliminar las tablas si existen
+DROP TABLE IF EXISTS questionary_questions;
+DROP TABLE IF EXISTS contents;
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+-- Crear la tabla 'contents'
+CREATE TABLE contents (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    number INT,
+    name VARCHAR(400),
+    description VARCHAR(500)
+);
 
---
--- Base de datos: `proyecto_abd`
---
+-- Insertar datos en la tabla 'contents'
+INSERT INTO contents (number, name,description)
+VALUES (1, 'Control Interno en los Sistemas Gestores de Bases de Datos (SGBD)','El "Control Interno en los Sistemas Gestores de Bases de Datos (SGBD)" se refiere a las medidas, políticas y procedimientos diseñados y aplicados para garantizar la seguridad, integridad, confiabilidad y eficiencia de los sistemas que gestionan y almacenan bases de datos en una organización.');
 
--- --------------------------------------------------------
+-- Crear la tabla 'questionary_questions'
+CREATE TABLE questionary_questions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fk_content_id INT,
+    question VARCHAR(200),
+    it_process VARCHAR(200),
+    number INT,
+    FOREIGN KEY (fk_content_id) REFERENCES contents(id)
+);
 
---
--- Estructura de tabla para la tabla `contenido`
---
+-- Insertar preguntas en la tabla 'questionary_questions'
 
-DROP TABLE IF EXISTS `Contenidos`;
-CREATE TABLE IF NOT EXISTS `Contenidos` (
-    `id` int NOT NULL AUTO_INCREMENT,
-    `numero` int NOT NULL,
-    `descripcion` VARCHAR(500),
-    PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+-- Proceso: Definir un plan estratégico de TI
+INSERT INTO questionary_questions (fk_content_id, question, it_process, number)
+VALUES (1, '¿Se ha establecido un proceso para definir y mantener un plan estratégico de TI alineado con los objetivos empresariales?', 'Definir un plan estratégico de TI', 1);
 
+INSERT INTO questionary_questions (fk_content_id, question, it_process, number)
+VALUES (1, '¿Cuál es el plan para garantizar la disponibilidad, integridad y confidencialidad de los datos en las bases de datos?', 'Definir un plan estratégico de TI', 2);
 
-DROP TABLE IF EXISTS `contenido`;
-CREATE TABLE IF NOT EXISTS `contenido` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `resultado` int NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+INSERT INTO questionary_questions (fk_content_id, question, it_process, number)
+VALUES (1, '¿Cómo se establecerán y comunicarán los roles y responsabilidades relacionados con la administración de bases de datos en toda la organización?', 'Definir un plan estratégico de TI', 3);
 
--- --------------------------------------------------------
+-- Proceso: Definir la arquitectura de la información
+INSERT INTO questionary_questions (fk_content_id, question, it_process, number)
+VALUES (1, '¿Se documenta y comunica la arquitectura de la información de manera efectiva para asegurar su alineación con las necesidades empresariales?', 'Definir la arquitectura de la información', 4);
 
---
--- Estructura de tabla para la tabla `cuestionario`
---
+INSERT INTO questionary_questions (fk_content_id, question, it_process, number)
+VALUES (1, '¿Define objetivos de control para asegurar la integridad y seguridad de las bases de datos?', 'Definir la arquitectura de la información', 5);
 
-DROP TABLE IF EXISTS `cuestionario`;
-CREATE TABLE IF NOT EXISTS `cuestionario` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `objetivo` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+INSERT INTO questionary_questions (fk_content_id, question, it_process, number)
+VALUES (1, '¿Qué medidas se toman para garantizar la escalabilidad y flexibilidad de la arquitectura de la información en función de las necesidades futuras?', 'Definir la arquitectura de la información', 6);
 
---
--- Volcado de datos para la tabla `cuestionario`
---
+-- Proceso: Gestionar la adquisición y la implementación
+INSERT INTO questionary_questions (fk_content_id, question, it_process, number)
+VALUES (1, '¿Existe un proceso para gestionar la adquisición y la implementación de sistemas de TI, incluyendo la evaluación de proveedores y la validación de soluciones?', 'Gestionar la adquisición y la implementación', 7);
 
-INSERT INTO `cuestionario` (`id`, `objetivo`) VALUES
-(1, 'AI1 Identificar Soluciones Automatizadas '),
-(2, 'AI2 Adquirir y Mantener Software Aplicativo');
+INSERT INTO questionary_questions (fk_content_id, question, it_process, number)
+VALUES (1, '¿Qué estrategias se pueden emplear para minimizar los riesgos durante la implementación de tecnologías críticas para el negocio?', 'Gestionar la adquisición y la implementación', 8);
 
-INSERT INTO `cuestionario` (`id`, `objetivo`) VALUES
-(3, 'AI3 ¿Define objetivos de control para asegurar la integridad y seguridad de las bases de datos? '),
-(4, 'AI4 ¿Sugiere prácticas y controles para garantizar la disponibilidad de la información en las bases de datos?');
+INSERT INTO questionary_questions (fk_content_id, question, it_process, number)
+VALUES (1, '¿Qué estrategias se pueden emplear para minimizar los riesgos durante la implementación de tecnologías críticas para el negocio?', 'Gestionar la adquisición y la implementación', 9);
 
-INSERT INTO `cuestionario` (`id`, `objetivo`) VALUES
-(5, 'AI5 ¿Se ha definido un marco de políticas y procedimientos para guiar la toma de decisiones y el cumplimiento de las regulaciones en TI?'),
-(6, 'AI6 ¿Se realizan revisiones periódicas de los niveles de servicio acordados y se toman medidas correctivas en caso de incumplimientos?');
+-- Proceso: Gestionar cambios 
+INSERT INTO questionary_questions (fk_content_id, question, it_process, number)
+VALUES (1, '¿Se siguen procedimientos formales para solicitar, evaluar y aprobar cambios en los sistemas de TI, asegurando la minimización de riesgos?', 'Gestionar cambios', 10);
 
+INSERT INTO questionary_questions (fk_content_id, question, it_process, number)
+VALUES (1, '¿Sugiere prácticas y controles para garantizar la disponibilidad de la información en las bases de datos?', 'Gestionar cambios', 11);
 
-INSERT INTO `cuestionario` (`id`, `objetivo`) VALUES
-(7, ' ¿El manual de organización de la unidad administrativa está actualizado y correspondes con la estructura organizacional autorizada? '),
-(8, ' ¿Promueve la observancia del Código de Ética?');
+INSERT INTO questionary_questions (fk_content_id, question, it_process, number)
+VALUES (1, '¿Se enfoca en minimizar los riesgos y los impactos negativos asociados con cambios no planificados en los sistemas de información y en el entorno tecnológico?','Gestionar operaciones', 12);
 
-INSERT INTO `Contenidos` (`numero`, `descripcion`) VALUES (1,'El "Control Interno en los Sistemas Gestores de Bases de Datos" se refiere al conjunto de medidas y procedimientos diseñados para garantizar la seguridad, confiabilidad y eficiencia de los sistemas que administran y almacenan bases de datos. Estas medidas buscan asegurar que la información almacenada en la base de datos esté protegida contra accesos no autorizados, pérdida de datos y garantizar la precisión de los registros.');
-COMMIT;
+-- Proceso: Gestionar operaciones
+INSERT INTO questionary_questions (fk_content_id, question, it_process, number)
+VALUES (1, '¿Se cuenta con un plan de continuidad de negocios y se monitorean proactivamente las operaciones de TI para garantizar su disponibilidad?', 'Gestionar operaciones', 13);
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+INSERT INTO questionary_questions (fk_content_id, question, it_process, number)
+VALUES (1, '¿Cómo se gestionan las actividades de copia de seguridad y recuperación en caso de fallos o pérdida de datos?', 'Gestionar operaciones', 14);
+
+INSERT INTO questionary_questions (fk_content_id, question, it_process, number)
+VALUES (1, '¿Qué procedimientos se siguen para planificar y ejecutar la migración de datos entre diferentes entornos o plataformas?', 'Gestionar operaciones', 15);
