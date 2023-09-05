@@ -2,6 +2,58 @@
 const margin = { top: 20, right: 30, bottom: 50, left: 50 };
 const width = 800 - margin.left - margin.right;
 const height = 400 - margin.top - margin.bottom;
+document.getElementById('alert').style.display = 'none'
+
+function showAlert(){
+
+    document.getElementById('alert').style.display = 'block'
+
+       setTimeout(() => {
+        document.getElementById('alert').style.display = 'none'
+
+       }, 1000); 
+
+
+}
+
+function postCBLOG(size_mb, used_mb, free_mb, process_id, time) {
+    const url = 'http://localhost/monitor_memoria/services/cblog';
+  
+    // Create a JSON object with the data
+    const data = {
+      size_mb: size_mb,
+      used_mb: used_mb,
+      free_mb: free_mb,
+      process_id: process_id,
+      time: time
+    };
+
+    console.log(time)
+  
+    const fetchOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    };
+  
+ 
+    fetch(url, fetchOptions)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Data sent successfully:', data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }
+  
 
 
 async function fetchData() {
@@ -24,8 +76,20 @@ async function fetchData() {
   }
 }
 
+function drawHWM() {
+    svg.append("line")
+      .attr("class", "hwm-line")
+      .attr("x1", 0)
+      .attr("x2", width)
+      .attr("y1", yScale(85))
+      .attr("y2", yScale(85))
+      .attr("stroke", "red")
+      .attr("stroke-width", 2);
+  }
 
 
+
+  
 const svg = d3.select("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -39,6 +103,12 @@ const xScale = d3.scaleTime()
 const yScale = d3.scaleLinear()
     .domain([0, 100])
     .range([height, 0]);
+
+
+
+
+
+drawHWM();
 
 const line = d3.line()
     .x(d => xScale(d.time))
@@ -58,7 +128,7 @@ const yAxis = svg.append("g")
     .attr("class", "y-axis");
 
 function generateRandomData() {
-      return Math.floor(Math.random() * (90 - 50 + 1)) + 50; 
+      return Math.floor(Math.random() * (95 - 50 + 1)) + 50; 
 }
   
 function formatXAxisLabel(time) {
@@ -74,17 +144,23 @@ async function  updateChart(){
 
   const memoryUsagePercentage = (usedMemoryMB / bufferCacheTotalMB) * 100; 
 
+  console.log(bufferCacheCurrentState)
 
-  const now = new Date();
+        const now = new Date();
 
-
+        porcentage = generateRandomData()
 
         const newDataPoint = {
         time: now,
-        percentage: generateRandomData()
-    };
+        percentage:porcentage
+
+        };
 
     
+        if(porcentage > 85){
+            postCBLOG(bufferCacheCurrentState.bufferCacheTotalMB,bufferCacheCurrentState.usedMemoryMB,bufferCacheCurrentState.freeMemoryMB,bufferCacheCurrentState,0,new Date());
+            showAlert();
+        }
 
     /*
     const newDataPoint = {

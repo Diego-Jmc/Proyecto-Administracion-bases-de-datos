@@ -68,12 +68,10 @@ class BufferMonitorResult {
 }
 
 
-// Datos de conexión a la base de datos Oracle
 $nombre_servidor = "//localhost:1521/XE";
 $usuario = "SYSTEM";
 $contrasena = "root";
 
-// Realiza la conexión a la base de datos Oracle
 $conn = oci_connect($usuario, $contrasena, $nombre_servidor);
 
 if (!$conn) {
@@ -94,11 +92,9 @@ $sql = "SELECT 'Buffer Cache' AS component, " .
 
 
 
-// Prepara y ejecuta la consulta
 $stid = oci_parse($conn, $sql);
 oci_execute($stid);
 
-// Crear una instancia de BufferMonitorResult y configurarla con los datos de la consulta
 if ($row = oci_fetch_assoc($stid)) {
     $bufferMonitorResult = new BufferMonitorResult();
     $bufferMonitorResult->setComponent($row['COMPONENT']);
@@ -108,14 +104,11 @@ if ($row = oci_fetch_assoc($stid)) {
     $bufferMonitorResult->setFreeMemoryMB($row['FREE_MEMORY_MB']);
     $bufferMonitorResult->setUsedMemoryMB($row['USED_MEMORY_MB']);
 
-    // Obtener todos los datos
     $datos = $bufferMonitorResult->getAllData();
 
-    // Devolver los datos en formato JSON
     header('Content-Type: application/json');
     echo json_encode($datos);
 } else {
-    // Manejo de error si no se encontraron datos en la consulta
     header('HTTP/1.1 404 Not Found');
     echo 'No se encontraron datos';
 }
