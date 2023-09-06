@@ -16,6 +16,10 @@
     <svg class="memory-monitor" width="1200" height="400"></svg>
 
 
+    <div class="d-flex options-buttons">
+    <button class="btn btn-success" id="db-mode-btn"> Modo Base de datos </button>
+    <button class="btn btn-success" id="random-mode-btn"> Modo simulación </button>
+    </div>
 
     <div id="alert" class="alert alert-danger" >
            Alerta de alto consumo!

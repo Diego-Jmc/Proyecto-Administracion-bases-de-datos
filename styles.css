@@ -1,3 +1,11 @@
 .memory-monitor{
     border:1px solid #000;
 }
+
+.options-buttons{
+    margin-top: 1rem;
+}
+
+.options-buttons button{
+    margin-left: 2rem;
+}

@@ -4,6 +4,7 @@ const width = 800 - margin.left - margin.right;
 const height = 400 - margin.top - margin.bottom;
 document.getElementById('alert').style.display = 'none'
 
+
 function showAlert(){
 
     document.getElementById('alert').style.display = 'block'
@@ -16,43 +17,40 @@ function showAlert(){
 
 }
 
-function postCBLOG(size_mb, used_mb, free_mb, process_id, time) {
-    const url = 'http://localhost/monitor_memoria/services/cblog';
-  
-    // Create a JSON object with the data
-    const data = {
-      size_mb: size_mb,
-      used_mb: used_mb,
-      free_mb: free_mb,
-      process_id: process_id,
-      time: time
-    };
+function postCBLOG(size_mb, used_mb, free_mb, process_id, day, hour) {
+  const url = 'http://localhost/monitor_memoria/services/cblog'; // Asegúrate de que la URL sea la correcta
 
-    console.log(time)
-  
-    const fetchOptions = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    };
-  
- 
-    fetch(url, fetchOptions)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log('Data sent successfully:', data);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-  }
+  const data = {
+    size_mb: size_mb,
+    used_mb: used_mb,
+    free_mb: free_mb,
+    process_id: process_id,
+    day: day, 
+    hour: hour 
+  };
+
+  const fetchOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  };
+
+  fetch(url, fetchOptions)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Data sent successfully:', data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
   
 
 
@@ -136,15 +134,67 @@ function formatXAxisLabel(time) {
     return hour;
 }
 
-async function  updateChart(){
 
+
+async function updateChartDbMode(){
+
+  if(stopUpdateChartDb){
+    return;
+  }
+
+  const now = new Date();
   const bufferCacheCurrentState = await fetchData()
   const bufferCacheTotalMB = parseFloat(bufferCacheCurrentState.bufferCacheTotalMB);
   const usedMemoryMB = parseFloat(bufferCacheCurrentState.usedMemoryMB);
 
   const memoryUsagePercentage = (usedMemoryMB / bufferCacheTotalMB) * 100; 
 
-  console.log(bufferCacheCurrentState)
+
+  const newDataPoint = {
+    time: now,
+    percentage:memoryUsagePercentage
+
+    };
+
+
+    const dayString = `${now.getDay()}/${now.getMonth()}/${now.getFullYear()}`
+    if(memoryUsagePercentage > 85){
+        postCBLOG(bufferCacheCurrentState.bufferCacheTotalMB,bufferCacheCurrentState.usedMemoryMB,bufferCacheCurrentState.freeMemoryMB,0,dayString,new Date().getTime());
+        showAlert();
+    }
+
+
+    const data = path.datum();
+    data.push(newDataPoint);
+
+    xScale.domain([now - 30 * 1000, now]); // Mostrar los últimos 30 segundos
+
+    xAxis.call(d3.axisBottom(xScale).tickFormat(formatXAxisLabel));
+    yAxis.call(d3.axisLeft(yScale));
+
+    path.attr("d", line)
+        .attr("transform", null)
+        .transition()
+        .duration(5000)
+        .ease(d3.easeLinear)
+        .attr("transform", "translate(" + xScale(now - 30 * 1000) + ")"); 
+
+    if (data.length > 180) { 
+        data.shift();
+    }
+
+    setTimeout(updateChartDbMode, 5000); 
+
+}
+
+
+async function  updateChart(){
+
+  const bufferCacheCurrentState = await fetchData()
+
+  if(stopUpdateChartRandom){
+    return;
+  }
 
         const now = new Date();
 
@@ -156,19 +206,11 @@ async function  updateChart(){
 
         };
 
-    
+        const dayString = `${now.getDay()}/${now.getMonth()}/${now.getFullYear()}`
         if(porcentage > 85){
-            postCBLOG(bufferCacheCurrentState.bufferCacheTotalMB,bufferCacheCurrentState.usedMemoryMB,bufferCacheCurrentState.freeMemoryMB,bufferCacheCurrentState,0,new Date());
             showAlert();
         }
 
-    /*
-    const newDataPoint = {
-        time: now,
-        percentage: memoryUsagePercentage,
-    };
-
-    */
     const data = path.datum();
     data.push(newDataPoint);
 
@@ -193,3 +235,29 @@ async function  updateChart(){
 
 
 updateChart();
+
+let stopUpdateChartRandom = false;
+let stopUpdateChartDb = false;
+
+const dbModeBtn = document.getElementById('db-mode-btn')
+const randomMode = document.getElementById('random-mode-btn')
+
+dbModeBtn.addEventListener('click', () => {
+  if (stopUpdateChartRandom) {
+    return; 
+  }
+  
+  stopUpdateChartRandom = true;
+  stopUpdateChartDb = false; 
+  updateChartDbMode();
+});
+
+randomMode.addEventListener('click', () => {
+  if (stopUpdateChartDb) {
+    return; 
+  }
+  
+  stopUpdateChartDb = true;
+  stopUpdateChartRandom = false; 
+  updateChart();
+});

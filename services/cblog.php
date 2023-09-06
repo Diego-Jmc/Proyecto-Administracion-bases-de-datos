@@ -24,8 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Here, you can process the received JSON data as needed
         
         // Define the SQL query to insert data into the table
-        $sql = "INSERT INTO CBLOG_MONITOREO_BUFFER (size_mb, used_mb, free_mb, process_id, time) 
-                VALUES (:size_mb, :used_mb, :free_mb, :process_id, TO_TIMESTAMP(:time, 'YYYY-MM-DD HH24:MI:SS'))";
+        $sql = "INSERT INTO cblog_monitoreo_buffer (size_mb, used_mb, free_mb, process_id, day, hour) 
+                VALUES (:size_mb, :used_mb, :free_mb, :process_id, :day, :hour)";
         
         // Prepare the SQL statement
         $stmt = oci_parse($conn, $sql);
@@ -35,7 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         oci_bind_by_name($stmt, ':used_mb', $jsonData['used_mb']);
         oci_bind_by_name($stmt, ':free_mb', $jsonData['free_mb']);
         oci_bind_by_name($stmt, ':process_id', $jsonData['process_id']);
-        oci_bind_by_name($stmt, ':time', $jsonData['time']);
+        oci_bind_by_name($stmt, ':day', $jsonData['day']);
+        oci_bind_by_name($stmt, ':hour', $jsonData['hour']);
         
         // Execute the SQL statement
         $result = oci_execute($stmt);
