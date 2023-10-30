@@ -13,7 +13,7 @@ if (!$conn) {
     die("Error de conexión a Oracle: " . $error['message']);
 }
 
-// Define la consulta SQL
+// Esta consulta sql obtiene el sql en el sga que tiene mas hits de cache
 $sql = "
     SELECT sql_id, sql_text, executions, buffer_gets, disk_reads, elapsed_time
     FROM v\$sql

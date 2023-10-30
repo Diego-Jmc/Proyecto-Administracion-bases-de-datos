@@ -21,9 +21,39 @@
     <button class="btn btn-success" id="random-mode-btn"> Modo simulación </button>
     </div>
 
+    
+
     <div id="alert" class="alert alert-danger" >
            Alerta de alto consumo!
     </div>
+
+    <div class="cblog-table-container">
+
+    <h2>bitacora CBLog </h2>
+
+
+    <table class="table">
+  <thead class="thead-dark">
+    <tr>
+    <th scope="col">Day</th>
+      <th scope="col">Time</th>
+      <th scope="col">Size</th>
+      <th scope="col">Used</th>
+      <th scope="col">Free</th>
+      <th scope="col">Process Id</th>
+      <th scope="col">Sql Text</th>
+
+    </tr>
+  </thead>
+
+
+</table>
+
+
+
+    </div>
+
+
 
     </div>
 
