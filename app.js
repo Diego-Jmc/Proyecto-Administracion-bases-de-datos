@@ -3,7 +3,31 @@ const margin = { top: 20, right: 30, bottom: 50, left: 50 };
 const width = 800 - margin.left - margin.right;
 const height = 400 - margin.top - margin.bottom;
 document.getElementById('alert').style.display = 'none'
+const cblogBody = document.getElementById('cblog-body')
 
+async function updateCblogTable(){
+    const res = await fetch('http://localhost/monitor_memoria/services/cblog')
+    const data = await res.json()
+    
+    let html = ""
+    
+    data.forEach(element => {
+      html += `   <tr>
+      <td>${element.DAY}</td>
+      <td>${element.HOUR}</td>
+      <td>${element.SIZE_MB}  MB</td>
+      <td>${element.USED_MB}  MB</td>
+      <td>${element.FREE_MB} MB</td>
+      <td>${element.process_id}</td>
+      <td>"SELECT * FROM example_table"</td>
+    </tr>`  
+    })
+
+    cblogBody.innerHTML = html
+}
+
+
+updateCblogTable()
 
 function showAlert(){
 
@@ -18,7 +42,7 @@ function showAlert(){
 }
 
 function postCBLOG(size_mb, used_mb, free_mb, process_id, day, hour) {
-  const url = 'http://localhost/monitor_memoria/services/cblog'; // Asegúrate de que la URL sea la correcta
+  const url = 'http://localhost/monitor_memoria/services/cblog'; 
 
   const data = {
     size_mb: size_mb,
@@ -159,7 +183,7 @@ async function updateChartDbMode(){
 
     const dayString = `${now.getDay()}/${now.getMonth()}/${now.getFullYear()}`
     if(memoryUsagePercentage > 85){
-        postCBLOG(bufferCacheCurrentState.bufferCacheTotalMB,bufferCacheCurrentState.usedMemoryMB,bufferCacheCurrentState.freeMemoryMB,0,dayString,new Date().getTime());
+        postCBLOG(bufferCacheCurrentState.bufferCacheTotalMB,bufferCacheCurrentState.usedMemoryMB,bufferCacheCurrentState.freeMemoryMB,0,dayString,new Date().getTime())
         showAlert();
     }
 
@@ -208,6 +232,8 @@ async function  updateChart(){
 
         const dayString = `${now.getDay()}/${now.getMonth()}/${now.getFullYear()}`
         if(porcentage > 85){
+          postCBLOG(bufferCacheCurrentState.bufferCacheTotalMB,bufferCacheCurrentState.usedMemoryMB,bufferCacheCurrentState.freeMemoryMB,0,dayString,`${new Date().getHours()} : ${new Date().getMinutes()}`)
+          await updateCblogTable()
             showAlert();
         }
 
