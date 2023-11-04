@@ -18,7 +18,7 @@ function showAlert(){
 }
 
 function postCBLOG(size_mb, used_mb, free_mb, process_id, day, hour) {
-  const url = 'http://localhost/monitor_memoria/services/cblog'; // Asegúrate de que la URL sea la correcta
+  const url = 'http://localhost/Proyecto-Administracion-bases-de-datos/services/cblog'; // Asegúrate de que la URL sea la correcta
 
   const data = {
     size_mb: size_mb,
@@ -55,7 +55,7 @@ function postCBLOG(size_mb, used_mb, free_mb, process_id, day, hour) {
 
 
 async function fetchData() {
-  const url = 'http://localhost/monitor_memoria/services/memory.php';
+  const url = 'http://localhost/Proyecto-Administracion-bases-de-datos/services/memory.php';
 
   try {
     const response = await fetch(url);
