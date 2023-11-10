@@ -1,4 +1,7 @@
 <?php
+
+
+
 class BufferMonitorResult {
     private $component;
     private $currentDate;
@@ -112,5 +115,8 @@ if ($row = oci_fetch_assoc($stid)) {
     header('HTTP/1.1 404 Not Found');
     echo 'No se encontraron datos';
 }
+
+
+
 
 ?>

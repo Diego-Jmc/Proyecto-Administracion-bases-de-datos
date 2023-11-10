@@ -11,7 +11,6 @@ if (!$conn) {
     die("Error de conexión a Oracle: " . $error['message']);
 }
 
-// Check if the request method is POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Read the POST data
     $postData = file_get_contents('php://input');
@@ -52,18 +51,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         // Clean up
         oci_free_statement($stmt);
-    } else {
-        // JSON parsing failed
-        http_response_code(400); // Bad Request
-        echo json_encode(array('error' => 'Invalid JSON data'));
     }
+} elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
+
+    $sql = "SELECT * FROM cblog_monitoreo_buffer";
+    $stmt = oci_parse($conn, $sql);
+    oci_execute($stmt);
+    
+    $data = array();
+    while ($row = oci_fetch_assoc($stmt)) {
+        $data[] = $row;
+    }
+
+    header('Content-Type: application/json');
+    echo json_encode($data);
 } else {
-    // Not a POST request
+    // No es una solicitud POST ni GET
     http_response_code(405); // Method Not Allowed
     echo json_encode(array('error' => 'Method not allowed'));
 }
 
-// Close the database connection
 oci_close($conn);
-
 ?>

@@ -1,0 +1,10 @@
+.login-container{
+    margin-top: 5rem;
+    display: flex;
+    justify-content: center;
+}
+
+.open-monitor-btn{
+    margin-top: 1rem;
+    width: 100%;
+}

@@ -1,67 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Monitor de consumo de memoria </title>
+    <title>Monitor</title>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://d3js.org/d3.v6.min.js"></script>
-    <link rel="stylesheet" href="./styles.css" >
+    <link rel="stylesheet"  href="./login.css" >
 </head>
 <body>
 
-    <div class="container">
-
-    <h2>Monitor de la memoria del buffer de ORACLE</h2>
-    <svg class="memory-monitor" width="1200" height="400"></svg>
+  <div class="container d-flex login-container">
 
 
-    <div class="d-flex options-buttons">
-    <button class="btn btn-success" id="db-mode-btn"> Modo Base de datos </button>
-    <button class="btn btn-success" id="random-mode-btn"> Modo simulación </button>
-    </div>
+  <div>
+  <div class="form-group">
 
-    
+  <h1>Monitor de memoria de la base de datos</h1>
 
-    <div id="alert" class="alert alert-danger" >
-           Alerta de alto consumo!
-    </div>
+<h3>Inicio de sesión</h3>
 
-    <div class="cblog-table-container">
+    <label for="exampleInputEmail1">Usuario</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Usuario">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Contraseña</label>
+    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Contraseña">
+  </div>
 
-    <h2>bitacora CBLog </h2>
+  <div class="form-group">
+    <label for="server-select">Servidor</label>
+    <select class="form-control" id="server-select">
+      <option>Local</option>
+      <option>Jesus</option>
+      <option>Jose</option>
+    </select>
+  </div>
 
-
-    <table class="table">
-  <thead class="thead-dark">
-    <tr>
-    <th scope="col">Day</th>
-      <th scope="col">Time</th>
-      <th scope="col">Size</th>
-      <th scope="col">Used</th>
-      <th scope="col">Free</th>
-      <th scope="col">Process Id</th>
-      <th scope="col">Sql Text</th>
-
-    </tr>
-  </thead>
+  <button  id="open-monitor-btn" class="btn btn-dark open-monitor-btn">Ingresar</button>
+</div>
 
 
-</table>
+  </div>
 
 
-
-    </div>
-
-
-
-    </div>
-
-
-    <?php
-
-    ?>
+  <script src="./login.js" ></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-    <script src="./app"></script>
+
 </body>
 </html>
