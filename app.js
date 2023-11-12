@@ -5,6 +5,34 @@ const height = 400 - margin.top - margin.bottom;
 document.getElementById('alert').style.display = 'none'
 
 
+
+const cblogBody = document.getElementById('cblog-body')
+
+async function updateCblogTable(){
+    const res = await fetch('http://localhost/monitor_memoria/services/cblog')
+    const data = await res.json()
+
+    let html = ""
+
+    data.forEach(element => {
+      html += `   <tr>
+      <td>${element.DAY}</td>
+      <td>${element.HOUR}</td>
+      <td>${element.SIZE_MB}  MB</td>
+      <td>${element.USED_MB}  MB</td>
+      <td>${element.FREE_MB} MB</td>
+      <td>${element.PROCESS_ID}</td>
+      <td>"SELECT * FROM example_table"</td>
+    </tr>`  
+    })
+
+    cblogBody.innerHTML = html
+}
+
+
+updateCblogTable()
+
+
 function showAlert(){
 
     document.getElementById('alert').style.display = 'block'
@@ -18,7 +46,7 @@ function showAlert(){
 }
 
 function postCBLOG(size_mb, used_mb, free_mb, process_id, day, hour) {
-  const url = 'http://localhost/Proyecto-Administracion-bases-de-datos/services/cblog'; // Asegúrate de que la URL sea la correcta
+  const url = 'http://localhost/monitor_memoria/services/cblog'; // Asegúrate de que la URL sea la correcta
 
   const data = {
     size_mb: size_mb,
@@ -55,7 +83,7 @@ function postCBLOG(size_mb, used_mb, free_mb, process_id, day, hour) {
 
 
 async function fetchData() {
-  const url = 'http://localhost/Proyecto-Administracion-bases-de-datos/services/memory.php';
+  const url = 'http://localhost/monitor_memoria/services/memory.php';
 
   try {
     const response = await fetch(url);
@@ -159,7 +187,7 @@ async function updateChartDbMode(){
 
     const dayString = `${now.getDay()}/${now.getMonth()}/${now.getFullYear()}`
     if(memoryUsagePercentage > 85){
-        postCBLOG(bufferCacheCurrentState.bufferCacheTotalMB,bufferCacheCurrentState.usedMemoryMB,bufferCacheCurrentState.freeMemoryMB,0,dayString,new Date().getTime());
+      //  postCBLOG(bufferCacheCurrentState.bufferCacheTotalMB,bufferCacheCurrentState.usedMemoryMB,bufferCacheCurrentState.freeMemoryMB,0,dayString,new Date().getTime());
         showAlert();
     }
 
@@ -190,7 +218,7 @@ async function updateChartDbMode(){
 
 async function  updateChart(){
 
-  const bufferCacheCurrentState = await fetchData()
+  
 
   if(stopUpdateChartRandom){
     return;
@@ -206,7 +234,7 @@ async function  updateChart(){
 
         };
 
-        const dayString = `${now.getDay()}/${now.getMonth()}/${now.getFullYear()}`
+
         if(porcentage > 85){
             showAlert();
         }

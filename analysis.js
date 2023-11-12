@@ -9,6 +9,7 @@ function filterByHour(data){
 
 function getAvg(data) {
     const hoursArray = data.map(e => e.HOUR)
+    
     const hoursPercentage = {}
 
     hoursArray.forEach(element => {
@@ -40,7 +41,9 @@ function getCircularGraphInfo(data,hour){
     return getAvg(data,hour)
 }
 
-
+function getOverflowsNumber(data){
+    return data.filter(e=> e.estado == 'Desbordamiento').length
+}
 
 infoForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -67,9 +70,12 @@ infoForm.addEventListener('submit', (e) => {
             .then(response => response.json())
             .then(data => {
 
+                console.log(data)
+                
                 const filtered = filterByHour(data)
                 console.log(getAvg(filtered))
                 showGraph(getAvg(filtered));
+                updateExtraInfo(getOverflowsNumber(data),"")
 
             })
             .catch(error => {
@@ -135,6 +141,14 @@ function showGraph(data) {
         .text(function(d, i) { return hours[i]; });
 
         document.getElementById('circular-grafics-description').innerHTML="Promedio de picos de memoria segun las horas del dia."
+ 
 }
+
+
+function updateExtraInfo(overflows,hits){
+    document.getElementById('overflows').innerHTML = `Numero de desbordamientos ocurridos: ${overflows}`
+
+}
+
 
 // Llamar a la función con datos de ejemplo
