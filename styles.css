@@ -25,3 +25,21 @@
 .analysis-container{
     padding: 1rem;
 }
+
+.input-daterange{
+    display: flex;
+    justify-content: center;
+}
+
+.input-daterange div{
+    margin: 2rem;
+}
+
+.circular-grafics{
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    
+}

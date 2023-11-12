@@ -42,7 +42,43 @@
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content analysis-container">
-     <h2>Analisis de tendencias</h2>
+
+    <h3>Análisis de tendencia</h3>
+
+     <form id="analysis-form">
+
+     <div class="input-daterange">
+   
+     <div class="form-group">
+      <label for="fecha">De</label>
+      <input type="date" class="form-control" id="fecha1" name="fecha1">
+    </div>
+
+    <div class="form-group">
+      <label for="fecha">A</label>
+      <input type="date" class="form-control" id="fecha2" name="fecha2">
+    </div>
+
+
+
+    </div>
+
+
+        <button type="submit" class="btn btn-dark"> Ver análisis</button>
+
+
+
+ 
+
+    </form>
+
+    <div class="circular-grafics" id="circular-grafics">
+
+
+
+<small id="circular-grafics-description"></small>
+</div>
+
     </div>
   </div>
 </div>
@@ -102,5 +138,7 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="./app.js"> </script>
+<script src="./analysis.js"> </script>
+
 </body>
 </html>
