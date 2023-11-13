@@ -6,10 +6,22 @@ document.getElementById('alert').style.display = 'none'
 
 
 
+
+var url = new URL(window.location.href);
+
+var hostParam = url.searchParams.get('host');
+
+
 const cblogBody = document.getElementById('cblog-body')
 
 async function updateCblogTable(){
-    const res = await fetch('http://localhost/monitor_memoria/services/cblog')
+    
+
+   let url = ""
+   hostParam !== null ? url = `http://localhost/monitor_memoria/services/cblog?host=${hostParam}` : url = "http://localhost/monitor_memoria/services/cblog"
+  console.log(url)
+    const res = await fetch(url)
+
     const data = await res.json()
 
     let html = ""
@@ -46,7 +58,12 @@ function showAlert(){
 }
 
 function postCBLOG(size_mb, used_mb, free_mb, process_id, day, hour) {
-  const url = 'http://localhost/monitor_memoria/services/cblog'; // Asegúrate de que la URL sea la correcta
+
+
+  let url = ""
+  hostParam !== null ? url = `http://localhost/monitor_memoria/services/memory?host=${hostParam}` : url = "http://localhost/monitor_memoria/services/memory"
+
+  console.log(url)
 
   const data = {
     size_mb: size_mb,
@@ -83,7 +100,11 @@ function postCBLOG(size_mb, used_mb, free_mb, process_id, day, hour) {
 
 
 async function fetchData() {
-  const url = 'http://localhost/monitor_memoria/services/memory.php';
+
+
+  let url = ""
+  hostParam !== null ? url = `http://localhost/monitor_memoria/services/memory?host=${hostParam}` : url = "http://localhost/monitor_memoria/services/memory"
+
 
   try {
     const response = await fetch(url);

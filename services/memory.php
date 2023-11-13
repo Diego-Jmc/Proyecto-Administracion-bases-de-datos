@@ -82,15 +82,36 @@ if (!$conn) {
     die("Error de conexión a Oracle: " . $error['message']);
 }
 
-// Define la consulta SQL
-$sql = "SELECT 'Buffer Cache' AS component, " .
-       "TO_CHAR(SYSDATE, 'YYYY-MM-DD') AS current_date, " .
-       "TO_CHAR(SYSDATE, 'HH24:MI:SS') AS current_time, " .
-       "ROUND(SUM(CASE WHEN name = 'buffer_cache' THEN BYTES ELSE 0 END) / 1024 / 1024) AS buffer_cache_total_mb, " .
-       "ROUND(SUM(CASE WHEN name = 'free memory' THEN BYTES ELSE 0 END) / 1024 / 1024) AS free_memory_mb, " .
-       "ROUND((SUM(CASE WHEN name = 'buffer_cache' THEN BYTES ELSE 0 END) - SUM(CASE WHEN name = 'free memory' THEN BYTES ELSE 0 END)) / 1024 / 1024) AS used_memory_mb " .
-       "FROM V\$SGASTAT " .
-       "WHERE name IN ('buffer_cache', 'free memory')";
+
+$host = isset($_GET['host']) ? $_GET['host'] : null;
+
+
+
+$sql = "";
+
+if ($host == "Local" || $host == null) {
+    $sql = "SELECT 'Buffer Cache' AS component, " .
+        "TO_CHAR(SYSDATE, 'YYYY-MM-DD') AS current_date, " .
+        "TO_CHAR(SYSDATE, 'HH24:MI:SS') AS current_time, " .
+        "ROUND(SUM(CASE WHEN name = 'buffer_cache' THEN BYTES ELSE 0 END) / 1024 / 1024) AS buffer_cache_total_mb, " .
+        "ROUND(SUM(CASE WHEN name = 'free memory' THEN BYTES ELSE 0 END) / 1024 / 1024) AS free_memory_mb, " .
+        "ROUND((SUM(CASE WHEN name = 'buffer_cache' THEN BYTES ELSE 0 END) - SUM(CASE WHEN name = 'free memory' THEN BYTES ELSE 0 END)) / 1024 / 1024) AS used_memory_mb " .
+        "FROM V\$SGASTAT " .
+        "WHERE name IN ('buffer_cache', 'free memory')";
+} else {
+    $sql = "SELECT 'Buffer Cache' AS component, " .
+        "TO_CHAR(SYSDATE, 'YYYY-MM-DD') AS current_date, " .
+        "TO_CHAR(SYSDATE, 'HH24:MI:SS') AS current_time, " .
+        "ROUND(SUM(CASE WHEN name = 'buffer_cache' THEN BYTES ELSE 0 END) / 1024 / 1024) AS buffer_cache_total_mb, " .
+        "ROUND(SUM(CASE WHEN name = 'free memory' THEN BYTES ELSE 0 END) / 1024 / 1024) AS free_memory_mb, " .
+        "ROUND((SUM(CASE WHEN name = 'buffer_cache' THEN BYTES ELSE 0 END) - SUM(CASE WHEN name = 'free memory' THEN BYTES ELSE 0 END)) / 1024 / 1024) AS used_memory_mb " .
+        "FROM V\$SGASTAT@" . $host .
+        " WHERE name IN ('buffer_cache', 'free memory')";
+}
+
+
+
+
 
 
 

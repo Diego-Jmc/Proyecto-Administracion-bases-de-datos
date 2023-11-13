@@ -22,9 +22,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($jsonData !== null) {
         // Here, you can process the received JSON data as needed
         
+        $host = isset($_GET['host']) ? $_GET['host'] : null;
+
         // Define the SQL query to insert data into the table
+    if($host == "Local" || $host == null){
         $sql = "INSERT INTO cblog_monitoreo_buffer (size_mb, used_mb, free_mb, process_id, day, hour) 
                 VALUES (:size_mb, :used_mb, :free_mb, :process_id, :day, :hour)";
+        
+    } else {
+        $sql = "INSERT INTO cblog_monitoreo_buffer@" . $host . "(size_mb, used_mb, free_mb, process_id, day, hour) 
+                VALUES (:size_mb, :used_mb, :free_mb, :process_id, :day, :hour)";
+    }
         
         // Prepare the SQL statement
         $stmt = oci_parse($conn, $sql);
@@ -53,11 +61,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         oci_free_statement($stmt);
     }
 } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $host = isset($_GET['host']) ? $_GET['host'] : null;
 
-    $sql = "SELECT * FROM cblog_monitoreo_buffer";
+    $sql = "";
+
+    if ($host == "Local" || $host == null) {
+        $sql = "SELECT * FROM cblog_monitoreo_buffer";
+    } else {
+        $sql = "SELECT * FROM cblog_monitoreo_buffer@" . $host;
+    }
+
+    // Intenta preparar la consulta SQL
     $stmt = oci_parse($conn, $sql);
-    oci_execute($stmt);
-    
+
+    if (!$stmt) {
+        $error = oci_error($conn);
+        http_response_code(500); // Internal Server Error
+        echo json_encode(array('error' => 'Error preparing SQL statement: ' . $error['message']));
+        exit;
+    }
+
+    // Intenta ejecutar la consulta SQL
+    $success = oci_execute($stmt);
+
+    if (!$success) {
+        $error = oci_error($stmt);
+        http_response_code(500); // Internal Server Error
+        echo json_encode(array('error' => 'Error executing SQL statement: ' . $error['message']));
+        exit;
+    }
+
     $data = array();
     while ($row = oci_fetch_assoc($stmt)) {
         $data[] = $row;
@@ -70,6 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     http_response_code(405); // Method Not Allowed
     echo json_encode(array('error' => 'Method not allowed'));
 }
+
 
 oci_close($conn);
 ?>

@@ -31,8 +31,7 @@
     <label for="server-select">Servidor</label>
     <select class="form-control" id="server-select">
       <option>Local</option>
-      <option>Jesus</option>
-      <option>Jose</option>
+      <option>db_dylan</option>
     </select>
   </div>
 

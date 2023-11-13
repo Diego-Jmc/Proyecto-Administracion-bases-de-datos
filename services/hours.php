@@ -31,7 +31,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Realizar la consulta a la tabla cblog_monitoreo_buffer sin filtro de fechas
-    $query = "SELECT DAY, HOUR, SIZE_MB, USED_MB FROM cblog_monitoreo_buffer";
+
+    $host = isset($_GET['host']) ? $_GET['host'] : null;
+
+    $query = "";
+
+    if ($host == "Local" || $host == null){
+        $query = "SELECT DAY, HOUR, SIZE_MB, USED_MB FROM cblog_monitoreo_buffer";
+    }else{
+        $query = "SELECT DAY, HOUR, SIZE_MB, USED_MB FROM cblog_monitoreo_buffer@" . $host . "";
+    }
+
     $result = oci_parse($conn, $query);
 
     if (!$result) {

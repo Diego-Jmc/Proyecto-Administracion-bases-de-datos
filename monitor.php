@@ -21,7 +21,7 @@
     <h3>
       Servidor Actual:
     <?php
-    $server = $_GET['server'];
+    $server = $_GET['host'];
     echo $server;
     ?>
          </h3>
@@ -35,62 +35,7 @@
     </div>
 
     
-    <button type="button" id="analisis-btn" class="btn btn-primary analisis-btn" data-toggle="modal" data-target=".bd-example-modal-lg">Ver Análisis </button>
 
-
-
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content analysis-container">
-
-    <h3>Análisis de tendencia</h3>
-
-     <form id="analysis-form">
-
-     <div class="input-daterange">
-   
-     <div class="form-group">
-      <label for="fecha">De</label>
-      <input type="date" class="form-control" id="fecha1" name="fecha1">
-    </div>
-
-    <div class="form-group">
-      <label for="fecha">A</label>
-      <input type="date" class="form-control" id="fecha2" name="fecha2">
-    </div>
-
-
-
-    </div>
-
-
-        <button type="submit" class="btn btn-dark"> Ver análisis</button>
-
-
-
- 
-
-    </form>
-
-    <div class="circular-grafics" id="circular-grafics">
-
-
-
-<small id="circular-grafics-description"></small>
-</div>
-
-
-<div>
-
-
-
-<p id="overflows" > </p>
-
-</div>
-
-    </div>
-  </div>
-</div>
 
 
     
@@ -102,6 +47,95 @@
     <div class="cblog-table-container">
 
     <h2>bitacora CBLog </h2>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#open-analysis-modal">
+    Tabla de análisis
+</button>
+
+
+
+    <div class="modal" id="open-analysis-modal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Large Analysis Modal</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        
+
+
+      <h3>Análisis de tendencia</h3>
+
+<form id="analysis-form">
+
+<div class="input-daterange">
+
+<div class="form-group">
+ <label for="fecha">De</label>
+ <input type="date" class="form-control" id="fecha1" name="fecha1">
+</div>
+
+<div class="form-group">
+ <label for="fecha">A</label>
+ <input type="date" class="form-control" id="fecha2" name="fecha2">
+</div>
+
+
+
+</div>
+
+
+   <button type="submit" class="btn btn-dark"> Ver análisis </button>
+
+
+
+
+
+</form>
+
+
+
+
+
+<div class="graphs-container">
+
+
+<div class="graphics-chart-container">
+
+<div id="bar-grafics"></div>
+<div id="bar-grafics-description"></div>
+
+</div>
+
+<div id="circular-graphics-container">
+
+<div id="circular-grafics"></div>
+<div id="circular-grafics-description"></div>
+
+
+</div>
+
+
+
+</div>
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+    </div>
 
 
     <table class="table">
@@ -128,12 +162,6 @@
 
 
 </table>
-
-
-
-    </div>
-
-
 
     </div>
 
